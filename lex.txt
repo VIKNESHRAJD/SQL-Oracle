@@ -1,0 +1,290 @@
+\documentclass[12pt]{article}
+
+% ------------------ PACKAGES ------------------
+\usepackage{amsmath}
+\usepackage{geometry}
+\usepackage{setspace}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\usepackage{listings}
+
+\geometry{a4paper, margin=1in}
+\setstretch{1.3}
+
+% ------------------ CODE STYLE ------------------
+\definecolor{codeblue}{RGB}{0,0,180}
+\definecolor{codegreen}{RGB}{0,150,0}
+\definecolor{codered}{RGB}{180,0,0}
+\definecolor{codegray}{RGB}{245,245,245}
+
+\lstset{
+	language=Python,
+	backgroundcolor=\color{codegray},
+	basicstyle=\ttfamily\small,
+	keywordstyle=\color{codeblue}\bfseries,
+	stringstyle=\color{codered},
+	commentstyle=\color{codegreen},
+	frame=single,
+	rulecolor=\color{black},
+	breaklines=true,
+	showstringspaces=false
+}
+
+% ------------------ TITLE ------------------
+\title{\textbf{Experiment on Understanding Activation Functions}}
+\author{\textbf{vikki}}
+\date{15 January 2026}
+
+\begin{document}
+	\maketitle
+	
+	% ======================================================
+	\section*{Experiment 1: Understanding Activation Functions}
+	
+	\subsection*{Aim}
+	To understand and visualize Sigmoid, Tanh, and ReLU activation functions using Python.
+	
+	% ------------------------------------------------------
+	\subsection*{Theory}
+	An activation function is a mathematical function used in a neural network to determine the output of a neuron. It introduces non-linearity into the model so that complex patterns can be learned.
+	
+	\[
+	y = f(z), \quad z = w \cdot x + b
+	\]
+	
+	% ------------------------------------------------------
+	\subsection*{Step 1: Import Required Libraries}
+	
+	\begin{tcolorbox}[title=Step 1: Import Libraries]
+		\begin{lstlisting}
+	import numpy as np
+	import matplotlib.pyplot as plt
+		\end{lstlisting}
+	\end{tcolorbox}
+	
+	\textbf{Explanation:}
+	\begin{itemize}
+		\item NumPy is used for numerical operations
+		\item Matplotlib is used for plotting graphs
+	\end{itemize}
+	
+	% ------------------------------------------------------
+	\subsection*{Step 2: Define Activation Functions}
+	
+	\begin{tcolorbox}[title=Step 2: Define Activation Functions]
+		\begin{lstlisting}
+	def sigmoid(x):
+	return 1 / (1 + np.exp(-x))
+			
+	def tanh(x):
+	return np.tanh(x)
+			
+	def relu(x):
+	return np.maximum(0, x)
+		\end{lstlisting}
+	\end{tcolorbox}
+	
+	\textbf{Explanation:}
+	\begin{itemize}
+		\item Sigmoid outputs values between 0 and 1
+		\item Tanh outputs values between -1 and 1
+		\item ReLU outputs 0 for negative values and x for positive values
+	\end{itemize}
+	
+	% ------------------------------------------------------
+	\subsection*{Step 3: Generate Input Values}
+	
+	\begin{tcolorbox}[title=Step 3: Generate Input Data]
+		\begin{lstlisting}
+	x = np.linspace(-10, 10, 400)
+		\end{lstlisting}
+	\end{tcolorbox}
+	
+	\textbf{Explanation:}
+	\begin{itemize}
+		\item Generates 400 evenly spaced values between -10 and +10
+	\end{itemize}
+	
+	% ------------------------------------------------------
+	\subsection*{Step 4: Plot Activation Functions}
+	
+	\begin{tcolorbox}[title=Step 4: Plot Graphs]
+		\begin{lstlisting}
+	plt.figure(figsize=(12,7))
+			
+	plt.plot(x, sigmoid(x), label="Sigmoid", linewidth=2)
+	plt.plot(x, tanh(x), label="Tanh", linewidth=2)
+	plt.plot(x, relu(x), label="ReLU", linewidth=2)
+			
+	plt.xlabel("Input")
+	plt.ylabel("Output")
+	plt.legend()
+	plt.grid(True)
+	plt.show()
+		\end{lstlisting}
+	\end{tcolorbox}
+	
+	% ------------------------------------------------------
+	\subsection*{Result}
+	The plotted graph shows the different behaviors of Sigmoid, Tanh, and ReLU activation functions.
+	
+	\subsection*{Conclusion}
+	Activation functions are essential for enabling neural networks to learn complex and non-linear patterns.
+	
+	% ======================================================
+% ======================================================
+\newpage
+\section*{Experiment 2: Understanding Activation Functions with Animation}
+
+\subsection*{Aim}
+To understand the dynamic behavior of Sigmoid, Tanh, and ReLU activation functions using animation.
+
+% ------------------------------------------------------
+\subsection*{Theory}
+Animation helps in visualizing how activation functions respond gradually to changing input values. Instead of displaying the entire curve at once, animation draws the curve point by point, improving conceptual understanding.
+
+% ------------------------------------------------------
+\subsection*{Step 1: Import Required Libraries}
+
+\begin{tcolorbox}[title=Step 1: Import Libraries]
+	\begin{lstlisting}
+import numpy as np
+import matplotlib.pyplot as plt	
+from matplotlib.animation import FuncAnimation
+	\end{lstlisting}
+\end{tcolorbox}
+
+\textbf{Explanation:}
+\begin{itemize}
+	\item NumPy is used for numerical computation
+	\item Matplotlib is used for plotting
+	\item FuncAnimation is used to create animation
+\end{itemize}
+
+% ------------------------------------------------------
+\subsection*{Step 2: Define Activation Functions}
+
+\begin{tcolorbox}[title=Step 2: Define Activation Functions]
+	\begin{lstlisting}
+def sigmoid(x):
+return 1 / (1 + np.exp(-x))
+		
+def tanh(x):
+return np.tanh(x)
+		
+def relu(x):	
+return np.maximum(0, x)
+	\end{lstlisting}
+\end{tcolorbox}
+
+\textbf{Explanation:}
+\begin{itemize}
+	\item Sigmoid squashes input values between 0 and 1
+	\item Tanh produces outputs between -1 and 1
+	\item ReLU outputs zero for negative inputs
+\end{itemize}
+
+% ------------------------------------------------------
+\subsection*{Step 3: Generate Input Values}
+
+\begin{tcolorbox}[title=Step 3: Generate Input Data]
+	\begin{lstlisting}
+	x = np.linspace(-10, 10, 400)
+	\end{lstlisting}
+\end{tcolorbox}
+
+\textbf{Explanation:}
+\begin{itemize}
+	\item Creates 400 evenly spaced values
+	\item Covers negative, zero, and positive inputs
+\end{itemize}
+
+% ------------------------------------------------------
+\subsection*{Step 4: Create Plot Area}
+
+\begin{tcolorbox}[title=Step 4: Create Plot Area]
+	\begin{lstlisting}
+fig, ax = plt.subplots(figsize=(10, 6))
+ax.set_xlim(-10, 10)
+ax.set_ylim(-10, 10)
+ax.set_title("Animated Activation Functions")
+ax.set_xlabel("Input (x)")
+ax.set_ylabel("Output")
+ax.grid(True)
+	\end{lstlisting}
+\end{tcolorbox}
+
+\textbf{Explanation:}
+\begin{itemize}
+	\item Initializes the figure and axes
+	\item Sets axis limits and labels
+	\item Enables grid for better visibility
+\end{itemize}
+
+% ------------------------------------------------------
+\subsection*{Step 5: Initialize Empty Lines}
+
+\begin{tcolorbox}[title=Step 5: Initialize Lines]
+	\begin{lstlisting}
+line_sigmoid, = ax.plot([], [], color="blue", linewidth=2, label="Sigmoid")
+line_tanh, = ax.plot([], [], color="orange", linewidth=2, label="Tanh")
+line_relu, = ax.plot([], [], color="green", linewidth=2, label="ReLU")
+		
+ax.legend()
+	\end{lstlisting}
+\end{tcolorbox}
+
+\textbf{Explanation:}
+\begin{itemize}
+	\item Empty lines are created for animation
+	\item Data is added dynamically during animation
+\end{itemize}
+
+% ------------------------------------------------------
+\subsection*{Step 6: Define Animation Function}
+
+\begin{tcolorbox}[title=Step 6: Animation Function]
+	\begin{lstlisting}
+def animate(i):
+line_sigmoid.set_data(x[:i], sigmoid(x[:i]))
+line_tanh.set_data(x[:i], tanh(x[:i]))
+line_relu.set_data(x[:i], relu(x[:i]))
+return line_sigmoid, line_tanh, line_relu
+	\end{lstlisting}
+\end{tcolorbox}
+
+\textbf{Explanation:}
+\begin{itemize}
+	\item i represents the frame number
+	\item Curves are drawn gradually from left to right
+	\item Each frame updates all activation functions
+\end{itemize}
+
+% ------------------------------------------------------
+\subsection*{Step 7: Run the Animation}
+
+\begin{tcolorbox}[title=Step 7: Run Animation]
+	\begin{lstlisting}
+ani = FuncAnimation(fig, animate, frames=len(x), interval=20)
+plt.show()
+	\end{lstlisting}
+\end{tcolorbox}
+
+\textbf{Explanation:}
+\begin{itemize}
+	\item frames=len(x) defines total animation steps
+	\item interval controls animation speed
+	\item plt.show() displays the animation
+\end{itemize}
+
+% ------------------------------------------------------
+\subsection*{Observation}
+\begin{itemize}
+	\item Sigmoid curve saturates gradually
+	\item Tanh curve is symmetric about zero
+	\item ReLU activates only for positive inputs
+\end{itemize}
+
+\subsection*{Conclusion}
+Animated visualization provides a clear and intuitive understanding of activation functions and their learning behavior in neural networks.
+\end{document}
