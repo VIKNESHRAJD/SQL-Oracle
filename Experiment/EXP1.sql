@@ -52,5 +52,11 @@ Drop table Product_Info;
 ----ALTER TABLE
 ALTER TABLE Product_Info MODIFY (Model_No VARCHAR2(10));
 
+UPDATE Printer
+SET price = price - 4000
+WHERE modelno = 'pr124';
 
+UPDATE PC
+SET ram = ram * 2,
+    hdd = hdd + 10;
 
