@@ -56,6 +56,15 @@ UPDATE Printer
 SET price = price - 4000
 WHERE modelno = 'pr124';
 
+-- 1. Make the 'type' column in product_info NOT NULL
+ALTER TABLE product_info
+ALTER COLUMN type SET NOT NULL;
+
+-- 2. Set the default value of the 'speed' column in pc to 2
+ALTER TABLE pc
+ALTER COLUMN speed SET DEFAULT 2;
+
+
 UPDATE PC
 SET ram = ram * 2,
     hdd = hdd + 10;
