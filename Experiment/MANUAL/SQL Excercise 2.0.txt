@@ -1,0 +1,237 @@
+Exercise - 3
+
+1.List those rows of the table PC where RAM sizes are either 128 or 256 and the capacity of HD is greater than or equal to 50.
+	select *  from pc where (ram=128 or ram=256) and hd>=50;
+2.List all the rows from PRINTER except the printers pr112 or pr124.
+	 select * from printer where model_no not in('PR112','PR124');
+3.List all the rows from LAPTOP in ascending and descending order of the screen size.
+	 select * from laptop order by screensize;
+	 select * from laptop order by screensize desc;
+4.List the laptop details where the screen size is not 17.
+	select * from laptop where screensize!=17;
+5.List the printers whose price is between 5000 and 10000. (Use between).
+	select * from printer where price between 5000 and 10000;
+6.Display the PC details if we double the ram capacity. (Don't update).
+	select model_no,speed,2*ram,hd,cd,price from pc;
+7.Display the printer details with the following columnname as heading
+	select model_no as "PRINTER MODEL",color as "COLORINFO",  type as "PRINTERTYPE", price as "PRICE" from printer;
+8.10. Apply the following operations on WORKER and WORKERSKILL  tables 
+ UNION, UNION ALL , INTERSECTION & MINUS.
+
+SQL> select * from worker;
+
+NAME                        AGE
+-------------------- ----------
+DICK JONES                   33
+WILLIAM SWING                30
+BART SARJEANT                32
+SUMA RANGANATH               21
+RICHARD WILLIAMS             29
+BHARATH KUMAR                36
+JOHN PEARSON                 28
+JACKSON                      34
+MEENA KUMARI                 29
+ADAH TALBOT                  27
+
+10 rows selected.
+
+SQL> select * from workerskill;
+
+NAME                 SKILL           CITY       PHONE
+-------------------- --------------- ---------- ---------------
+DICK JONES           SMITHY          TRICHY     91-0437-77651
+JOHN PEARSON         COMBINE DRIVER  CHENNAI    91-0426-98721
+HELEN BRANDT         COMBINE DIRVER  MADURAI    91-0435-33333
+JOHN PEARSON         COMBINE DRIVER  CHENNAI    91-0453-98765
+JOHN PEARSON         SMITHY          MADURAI    91-0345-34565
+VICTORIA LYNN        SMITHY          SYDNEY     91-0234-98723
+ADAH TALBOT          WORK            THANJAVUR  91-0652-66544
+ELBERT  LOWELL       DISCUS          DELHI      91-0433-90875
+WILFRED LOWELL       WORK            SALEM      91-0213-98723
+ANAND KUMAR          PROGRAM         ERODE      91-0441-98123
+JACKSON              PROGRAM         HOSUR      91-0543-90873
+
+11 rows selected.
+
+UNION:
+
+SQL> select name from worker union select name from workerskill;
+
+NAME
+--------------------
+ADAH TALBOT
+ANAND KUMAR
+BART SARJEANT
+BHARATH KUMAR
+DICK JONES
+ELBERT  LOWELL
+HELEN BRANDT
+JACKSON
+JOHN PEARSON
+MEENA KUMARI
+RICHARD WILLIAMS
+
+NAME
+--------------------
+SUMA RANGANATH
+VICTORIA LYNN
+WILFRED LOWELL
+WILLIAM SWING
+
+15 rows selected.
+
+UNION ALL:
+
+SQL> select name from worker union all select name from workerskill;
+
+NAME
+--------------------
+DICK JONES
+WILLIAM SWING
+BART SARJEANT
+SUMA RANGANATH
+RICHARD WILLIAMS
+BHARATH KUMAR
+JOHN PEARSON
+JACKSON
+MEENA KUMARI
+ADAH TALBOT
+DICK JONES
+
+NAME
+--------------------
+JOHN PEARSON
+HELEN BRANDT
+JOHN PEARSON
+JOHN PEARSON
+VICTORIA LYNN
+ADAH TALBOT
+ELBERT  LOWELL
+WILFRED LOWELL
+ANAND KUMAR
+JACKSON
+
+21 rows selected.
+
+INTERSECT:
+
+SQL> select name from worker intersect select name from workerskill;
+
+NAME
+--------------------
+ADAH TALBOT
+DICK JONES
+JACKSON
+JOHN PEARSON
+
+MINUS :
+
+SQL> select name from worker minus select name from workerskill;
+
+NAME
+--------------------
+BART SARJEANT
+BHARATH KUMAR
+MEENA KUMARI
+RICHARD WILLIAMS
+SUMA RANGANATH
+WILLIAM SWING
+
+6 rows selected.
+
+
+
+SQL> select name from workerskill minus select name from worker;
+
+NAME
+--------------------
+ANAND KUMAR
+ELBERT  LOWELL
+HELEN BRANDT
+VICTORIA LYNN
+WILFRED LOWELL
+
+****************************************************************
+
+11.Display the HD size available in PC without duplicate values(use DISTINCT).
+
+SQL> select hd from pc;
+
+        HD
+----------
+        60
+        60
+       100
+        60
+       100
+
+SQL> select distinct hd from pc;
+
+        HD
+----------
+        60
+       100
+
+****************************************************************
+
+12.For each value of RAM, list the number of PCs (use group by function).
+
+SQL> select * from pc;
+
+MODEL_NO        SPEED        RAM         HD         CD      PRICE
+---------- ---------- ---------- ---------- ---------- ----------
+PC112               2        256         60         52      40000
+PC122               2        256         60         48      42000
+PC132               1        128        100         68      50000
+PC134               1        512         60         68      80000
+PC136               2        512        100         68      90000
+
+SQL> select ram, count(*) as pcs from pc group by ram;
+
+       RAM        PCS
+---------- ----------
+       128          1
+       256          2
+512	2
+
+****************************************************************
+
+13.For each value of HD, list the number of PCs (use group by function).
+
+SQL> select * from pc;
+
+MODEL_NO        SPEED        RAM         HD         CD      PRICE
+---------- ---------- ---------- ---------- ---------- ----------
+PC112               2        256         60         52      40000
+PC122               2        256         60         48      42000
+PC132               1        128        100         68      50000
+PC134               1        512         60         68      80000
+PC136               2        512        100         68      90000
+
+SQL> select hd, count(*) as qty from pc group by hd;
+
+   HD        QTY
+---------- ----------
+60          3
+100	    2
+
+****************************************************************
+
+14.List the HD values for which the number of PCs is more than 2 (use group by and having clause).
+
+SQL> select * from pc;
+
+MODEL_NO        SPEED        RAM         HD         CD      PRICE
+---------- ---------- ---------- ---------- ---------- ----------
+PC112               2        256         60         52      40000
+PC122               2        256         60         48      42000
+PC132               1        128        100         68      50000
+PC134               1        512         60         68      80000
+PC136               2        512        100         68      90000
+
+
+SQL> select hd, count(*) as pcs from pc group by hd having count(*)>2
+
+        HD        PCS
+---------- ----------
+        60          3
