@@ -31,11 +31,7 @@ PRIMARY KEY(Model_No);
 
 --Check Primary Keys
 
-SELECT Constraint_Name,
-       Constraint_Type,
-       Table_Name
-FROM User_Constraints
-WHERE Constraint_Type='P';
+SELECT Constraint_Name, Constraint_Type, Table_Name FROM User_Constraints WHERE Constraint_Type='P' AND Table_Name IN ('PRODUCT_INFO','PC','LAPTOP','PRINTER');
 
 
 --4. Create Foreign Keys
