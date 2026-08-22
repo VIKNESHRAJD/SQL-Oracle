@@ -1,34 +1,175 @@
---2.Key Constraints, Arithmetic, Logical, Set Operations & Sorting.
+CREATE TABLE WORKERSKILL(  NAME  VARCHAR2(30),  SKILL VARCHAR2(30), CITY  VARCHAR2(20), PHONE VARCHAR2(20));
 
---1.Alter the table product_info to make the type column NOT NULL.
-ALTER TABLE Product_Info MODIFY Product_Type NOT NULL;
-DESC PC;
+INSERT INTO WORKERSKILL VALUES ('DICK JONES','SMITHY','TRICHY','91-0437-77651');
 
---2.Alter the table pc to have a default speed of 2
-ALTER TABLE PC MODIFY Speed DEFAULT 2;
-SELECT * FROM PC;
+INSERT INTO WORKERSKILL VALUES ('JOHN PEARSON','COMBINE DRIVER','CHENNAI','91-0426-98721');
 
---3.Create suitable primary keys for all the tables of the above database schema
---a)Check if the primary keys are created successfully (User_Constraints table)
+INSERT INTO WORKERSKILL VALUES ('HELEN BRANDT','COMBINE DRIVER','MADURAI','91-0435-33333');
 
-ALTER TABLE Product_Info ADD PRIMARY KEY (Model_No);
-ALTER TABLE PC ADD PRIMARY KEY (Model_No); --EXTRA PK
-ALTER TABLE Laptop ADD PRIMARY KEY (Model_No);
-ALTER TABLE Printer ADD PRIMARY KEY (Model_No);
+INSERT INTO WORKERSKILL VALUES ('JOHN PEARSON','COMBINE DRIVER','CHENNAI','91-0453-98765');
+
+INSERT INTO WORKERSKILL VALUES ('JOHN PEARSON','SMITHY','MADURAI','91-0345-34565');
+
+INSERT INTO WORKERSKILL VALUES ('VICTORIA LYNN','SMITHY','SYDNEY','91-0234-98723');
+
+INSERT INTO WORKERSKILL VALUES ('ADAH TALBOT','WORK','THANJAVUR','91-0652-66544');
+
+INSERT INTO WORKERSKILL VALUES ('ELBERT LOWELL','DISCUS','DELHI','91-0433-90875');
+
+INSERT INTO WORKERSKILL VALUES ('WILFRED LOWELL','WORK','SALEM','91-0213-98723');
+
+INSERT INTO WORKERSKILL VALUES ('ANAND KUMAR','PROGRAM','ERODE','91-0441-98123');
+
+INSERT INTO WORKERSKILL VALUES ('JACKSON','PROGRAM','HOSUR','91-0543-90873');
+CREATE TABLE WORKER(NAME VARCHAR2(30),AGE NUMBER(3));
+
+--INSERT RECORDS INTO WORKER
+
+INSERT INTO WORKER VALUES ('DICK JONES',33);
+INSERT INTO WORKER VALUES ('WILLIAM SWING',30);
+INSERT INTO WORKER VALUES ('BART SARJEANT',32);
+INSERT INTO WORKER VALUES ('SUMA RANGANATH',21);
+INSERT INTO WORKER VALUES ('RICHARD WILLIAMS',29);
+INSERT INTO WORKER VALUES ('BHARTH KUMAR',36);
+INSERT INTO WORKER VALUES ('JOHN PEARSON',28);
+INSERT INTO WORKER VALUES ('JACKSON',34);
+INSERT INTO WORKER VALUES ('MEENA KUMARI',29);
+INSERT INTO WORKER VALUES ('ADAH TALBOT',27);
+
+  --DISPLAY TABLE
+SELECT * FROM WORKER;
+
+--
+SELECT * FROM PC WHERE (RAM = 128 OR RAM = 256) AND HD >= 50;
+
+--.List all the rows from PRINTER except the printers ‘pr112’ or ‘pr124’.
+
+SELECT *
+FROM Printer
+WHERE Model_No NOT IN ('PR112','PR124');
 
 
---CHECKING
-SELECT CONSTRAINT_NAME, TABLE_NAME, CONSTRAINT_TYPE FROM USER_CONSTRAINTS
-WHERE TABLE_NAME IN ('PRODUCT_INFO', 'PC', 'LAPTOP', 'PRINTER')
-AND CONSTRAINT_TYPE = 'P' ORDER BY TABLE_NAME;
+--3. List all the rows from LAPTOP in ascending order of the screen size.
 
 
---4.Create suitable foreign keys for all the tables of the above database schema
---a.Check if the foreign keys are created successfully (User_Constraints table)
---b.Demonstrate the usage of On delete cascade
+SELECT * FROM LAPTOP ORDER BY SCREENSIZE ASC;
 
-ALTER TABLE PC ADD CONSTRAINT FK_PC_ProductInfo FOREIGN KEY (Model_No) 
-REFERENCES Product_Info(Model_No) ON DELETE CASCADE ON UPDATE CASCADE;
+--. List all the rows from LAPTOP in descending order of  the screen size.
+
+SELECT * FROM LAPTOP ORDER BY SCREENSIZE DESC;
 
 
+
+--4. List the makers of PCs. Use LIKE operator in the MODEL_NO field.
+
+SELECT MAKER FROM PRODUCT_INFO WHERE MODEL_NO LIKE 'PC%';
+
+
+--5. List the laptop details where the screen size is not equal to 17.
+
+SELECT * FROM LAPTOP WHERE SCREENSIZE <> 17;
+
+
+--6. List the printers whose price is between 5000 and 10000.
+
+SELECT * FROM PRINTER WHERE PRICE BETWEEN 5000 AND 10000;
+
+
+--7. Display the PC details if we double the RAM capacity (Don't update the table).
+
+SELECT MODEL_NO,SPEED, RAM*2 AS RAM, HD, CD, PRICE FROM PC;
+
+
+--8. Display the printer details with the headings: PRINTER MODEL, COLORINFO, PRINTERTYPE and PRICE.
+
+SELECT MODEL_NO AS "PRINTER MODEL", COLOR AS "COLORINFO", TYPE AS "PRINTERTYPE", PRICE AS "PRICE" FROM PRINTER;
+
+
+
+-- 9.Apply the following operations on WORKER and WORKERSKILL  tables UNION, UNION ALL , INTERSECTION & MINUS.
+-- UNION operation 
+
+SELECT NAME FROM WORKER UNION SELECT NAME FROM WORKERSKILL;
+
+
+
+-- UNION ALL operation 
+
+SELECT NAME FROM WORKER UNION ALL SELECT NAME FROM WORKERSKILL;
+
+--INTERSECT operation 
+
+SELECT NAME FROM WORKER INTERSECT SELECT NAME FROM WORKERSKILL;
+
+
+-- MINUS operation 
+SELECT NAME FROM WORKER MINUS SELECT NAME FROM WORKERSKILL;
+
+
+
+
+--10.For each value of RAM, list the number of PCs (use group by function).
+
+SELECT RAM, COUNT(*) AS PCs FROM PC GROUP BY RAM;
+
+
+--11. For each value of HD, list the number of PCs (use group by function).
+SELECT HD, COUNT(*) AS PCS FROM PC GROUP BY HD;
+
+
+
+--12.List the HD values for which the number of PCs is more than 2. (Use group by and Having clause).
+
+SELECT HD,COUNT(*) AS PCS FROM PC GROUP BY HD HAVING COUNT(HD)>2;
+
+-------------------------------------------------------------------------------------
+-----------------------
+--1. List those rows of the table PC where RAM sizes are either '128' or '256' and the capacity of HD is greater than or equal to 50.
+SELECT * FROM PC WHERE (RAM = 128 OR RAM = 256) AND HD >= 50;
+
+--2. List all the rows from PRINTER except the printers 'PR112' or 'PR124'.
+SELECT * FROM PRINTER WHERE MODEL_NO NOT IN ('PR112','PR124');
+
+--3. List all the rows from LAPTOP in ascending order of the screen size.
+SELECT * FROM LAPTOP ORDER BY SCREENSIZE ASC;
+
+--4. List all the rows from LAPTOP in descending order of the screen size.
+SELECT * FROM LAPTOP ORDER BY SCREENSIZE DESC;
+
+--5. List the makers of PCs. Use LIKE operator in the MODEL_NO field (don't use TYPE).
+SELECT MAKER FROM PRODUCT_INFO WHERE MODEL_NO LIKE 'PC%';
+
+--6. List the laptop details where the screen size is not 17.
+SELECT * FROM LAPTOP WHERE SCREENSIZE <> 17;
+
+--7. List the printers whose price is between 5000 and 10000 (Use BETWEEN).
+SELECT * FROM PRINTER WHERE PRICE BETWEEN 5000 AND 10000;
+
+--8. Display the PC details if we double the RAM capacity (Don't update).
+SELECT MODEL_NO,SPEED,RAM*2 AS RAM,HD,CD,PRICE FROM PC;
+
+--9. Display the printer details with the headings PRINTER MODEL, COLORINFO, PRINTERTYPE and PRICE.
+SELECT MODEL_NO AS "PRINTER MODEL", COLOR AS "COLORINFO",TYPE AS "PRINTERTYPE", PRICE AS "PRICE" FROM PRINTER;
+
+--10. Apply UNION operation on WORKER and WORKERSKILL tables.
+SELECT NAME FROM WORKER UNION SELECT NAME FROM WORKERSKILL;
+
+--11. Apply UNION ALL operation on WORKER and WORKERSKILL tables.
+SELECT NAME FROM WORKER UNION ALL SELECT NAME FROM WORKERSKILL;
+
+--12. Apply INTERSECT operation on WORKER and WORKERSKILL tables.
+SELECT NAME FROM WORKER INTERSECT SELECT NAME FROM WORKERSKILL;
+
+--13. Apply MINUS operation on WORKER and WORKERSKILL tables.
+SELECT NAME FROM WORKER MINUS SELECT NAME FROM WORKERSKILL;
+
+--14. For each value of RAM, list the number of PCs (Use GROUP BY).
+SELECT RAM, COUNT(*) AS PCS FROM PC GROUP BY RAM;
+
+--15. For each value of HD, list the number of PCs (Use GROUP BY).
+SELECT HD, COUNT(*) AS PCS
+FROM PC GROUP BY HD;
+
+--16. List the HD values for which the number of PCs is more than 2 (Use GROUP BY and HAVING).
+SELECT HD, COUNT(*) AS PCS FROM PC GROUP BY HD HAVING COUNT(*) > 2;
 
